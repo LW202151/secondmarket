@@ -1,0 +1,8 @@
+{
+  "properties": [
+    {
+      "name": "cube",
+      "type": "java.lang.String",
+      "description": "Description for cube."
+  }
+] }
