@@ -34,13 +34,13 @@ public class Seegoods {
      * @return
      */
     @ApiOperation(value = "发布商品")
-    @RequestMapping(value = "/post/{name}/{tag}/{type}/{price}/{desc}/{tokenid}", method = RequestMethod.GET)
+    @RequestMapping(value = "/post/{name}/{tag}/{desc}/{price}/{type}/{tokenid}", method = RequestMethod.GET)
     @ResponseBody
     public Map<String, Object> post(@PathVariable(value = "name") String name,
                                     @PathVariable(value = "tag") String tag,
-                                    @PathVariable(value = "type") String type,
-                                    @PathVariable(value = "price") Float price,
                                     @PathVariable(value = "desc") String desc,
+                                    @PathVariable(value = "price") Float price,
+                                    @PathVariable(value = "type") String type,
                                     @PathVariable(value = "tokenid") String tokenid) {
 
 
@@ -50,7 +50,7 @@ public class Seegoods {
 
         map.put("code", 0);
         try {
-            map.put("goodId", seegoodsService.postGood(name, tag,type,price, desc, tokenid));
+            map.put("goodId", seegoodsService.postGood(name, tag,desc,price, type, tokenid));
         }
         catch (SecondRuntimeException e) {
             map.put("code", 1);
@@ -235,11 +235,11 @@ public class Seegoods {
 
 
     /**
-     * 商品详情
+     * 商品详情（管理员）
      * @param goodsid
      * @return
      */
-    @ApiOperation(value = "商品详情")
+    @ApiOperation(value = "商品详情(管理员）")
     @RequestMapping(value = "/information/{goodsid}", method = RequestMethod.GET)
     @ResponseBody
     public Map<String, Object> infomationGood(@PathVariable(value = "goodsid") String goodsid) {
@@ -252,6 +252,30 @@ public class Seegoods {
         return map;
 
     }
+
+    /**
+     * 商品详情(用户）
+     * @param tokenid
+     * @param goodsid
+     * @return
+     */
+    @ApiOperation(value = "商品详情(用户）")
+    @RequestMapping(value = "/information/user/{tokenid}/{goodsid}", method = RequestMethod.GET)
+    @ResponseBody
+    public Map<String, Object> scanGood(@PathVariable(value = "tokenid") String tokenid,
+                                        @PathVariable(value = "goodsid") String goodsid) {
+
+
+        Map<String, Object> map = new HashMap<>();
+
+        map.put("code", 0);
+        map.put("data", seegoodsService.fromEntityListGetInnerGoodList(seegoodsService.scanGood(tokenid, goodsid)));
+        return map;
+
+    }
+
+
+
 
     /**
      * 修改商品信息（管理员）

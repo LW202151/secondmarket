@@ -48,7 +48,7 @@ public class CarController {
             carService.createCar(tokenid, goodId);
         }
         catch (SecondRuntimeException e) {
-            map.put("code", 0);
+            map.put("code", 1);
             map.put("msg", e.getMessage());
         }
         return map;

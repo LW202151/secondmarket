@@ -7,6 +7,8 @@ import lombok.Setter;
 
 
 public class InnerGood {
+
+
    private GoodsEntity entity;
 
     // 图片真实地址

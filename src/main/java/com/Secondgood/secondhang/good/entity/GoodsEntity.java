@@ -1,6 +1,7 @@
 package com.Secondgood.secondhang.good.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.google.gson.internal.$Gson$Types;
 import com.vladmihalcea.hibernate.type.json.JsonStringType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -18,6 +19,7 @@ import java.sql.Timestamp;
 @Entity(name = "goods")
 @NoArgsConstructor
 public class GoodsEntity {
+
     @Id
     private String goodsid;
 
@@ -26,20 +28,22 @@ public class GoodsEntity {
     private Integer g_id;
 
 
-    private String name;
-
-    private String tag;
-
-    private String desciption;
-
-    private Float price;
-
-    private String type;
-
-    private String updatedate;
 
 
-    public GoodsEntity(String goodsid, String name, String tag, String type, Float price, String desciption, String updatedate) {
+
+    private String name ;
+
+   private String tag;
+
+   private String desciption;
+
+   private Float price ;
+
+   private String type;
+
+   private String updatedate;
+
+    public GoodsEntity(String goodsid,String name, String tag, String desciption, Float price, String type, String updatedate) {
         this.goodsid = goodsid;
         this.name = name;
         this.tag = tag;
@@ -47,71 +51,62 @@ public class GoodsEntity {
         this.price = price;
         this.type = type;
         this.updatedate = updatedate;
+    }
 
+    public String getGoodsid() {
+        return goodsid;
     }
 
     public void setGoodsid(String goodsid) {
         this.goodsid = goodsid;
     }
 
-    public void setG_id(Integer g_id) {
-        this.g_id = g_id;
+
+    public String getName() {
+        return name;
     }
 
     public void setName(String name) {
         this.name = name;
     }
 
+    public String getTag() {
+        return tag;
+    }
+
     public void setTag(String tag) {
         this.tag = tag;
-    }
-
-    public void setDesciption(String desciption) {
-        this.desciption = desciption;
-    }
-
-    public void setPrice(Float price) {
-        this.price = price;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public void setUpdatedate(String updatedate) {
-        this.updatedate = updatedate;
-    }
-
-
-    public String getGoodsid() {
-        return goodsid;
-    }
-
-    public Integer getG_id() {
-        return g_id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getTag(String tag) {
-        return this.tag;
     }
 
     public String getDesciption() {
         return desciption;
     }
 
+    public void setDesciption(String desciption) {
+        this.desciption = desciption;
+    }
+
     public Float getPrice() {
         return price;
+    }
+
+    public void setPrice(Float price) {
+        this.price = price;
     }
 
     public String getType() {
         return type;
     }
 
+    public void setType(String type) {
+        this.type = type;
+    }
+
     public String getUpdatedate() {
         return updatedate;
+    }
+
+    public void setUpdatedate(String updatedate) {
+        this.updatedate = updatedate;
     }
 }

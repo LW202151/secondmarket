@@ -15,6 +15,8 @@ public interface OrderofgoodDao extends JpaRepository<OrderofgoodsEntity,String>
     void deleteByOrderid(String orderid);
 
     List<OrderofgoodsEntity> findByOrderid(String orderid);
+    List<OrderofgoodsEntity> findByGoodsid(String goodsid);
+
 
 
 

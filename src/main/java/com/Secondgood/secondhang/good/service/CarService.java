@@ -58,6 +58,9 @@ public class CarService {
     @Resource
     TokenDao tokenDao;
 
+    @Resource
+    ScoreDao scoreDao;
+
     /**
      * 加入购物车
      * @param tokenid
@@ -81,11 +84,35 @@ public class CarService {
         if (!seegoodsService.checkGoodExist(goodId)) {
             throw new SecondRuntimeException("物品id不存在，无法加入购物车");
         }
+        List<GoodOfUserEntity> temp = goodOfUserDao.findByGoodsidAndUserid(goodId,userId);
+        if(temp.size() != 0){
+
+            throw new SecondRuntimeException("自身发布的商品不能加购");
+        }
+
         if(check.size() == 1){
             throw new SecondRuntimeException("商品已加入购物车");
         }
 
         cargoodsDao.save(new CarEntity(userId, goodId));
+
+        List<GoodsEntity> goodsEntities = searchDao.findByGoodsid(goodId);
+        String tag = goodsEntities.get(0).getTag();
+        List<ScoreEntity> checkentity = scoreDao.findByUseridAndTag(userId,tag);
+        if(checkentity.size() != 0){
+
+            int score = checkentity.get(0).getScore();
+            ScoreEntity scoreEntity = checkentity.get(0);
+
+            scoreEntity.setScore(score+5);
+            scoreEntity.setTime(Util.getNowTime());
+            scoreDao.save(scoreEntity);
+
+        }else {
+            int sum = 5;
+            scoreDao.save(new ScoreEntity(Util.getUniqueId() , userId , tag ,sum , Util.getNowTime()));
+
+        }
     }
 
     /***

@@ -75,7 +75,6 @@ public class SecondcodeController {
         OrderEntity orderEntity = orderDao.findByOrderid(orderid).get(0);
 
         orderEntity.setState("支付成功");
-
         orderDao.save(orderEntity);
 
         carService.buy(tokenid, orderid);
