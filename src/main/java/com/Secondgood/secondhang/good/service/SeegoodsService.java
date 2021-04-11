@@ -524,6 +524,7 @@ public class SeegoodsService {
                         if(goodOfUserDao.findByGoodsidAndUserid(goodsid,userid).size() == 0) {
                             res.add(entity);
                             extra--;
+                          //  count++;
                         }
                     }
 
@@ -567,11 +568,5 @@ public class SeegoodsService {
         }
         return false;
     }
-
-
-    
-
-
-
 
 }

@@ -28,9 +28,32 @@ public class PicController {
         Map<String, Object> map = new HashMap<>();
 
         try {
-            service.upload(goodsid, file.getInputStream(), file.getOriginalFilename());
+           // service.upload(goodsid, file.getInputStream(), file.getOriginalFilename());
             map.put("code", 0);
-            map.put("msg", "success");
+            map.put("url", service.upload(goodsid, file.getInputStream(), file.getOriginalFilename()));
+
+        } catch (IOException e) {
+            map.put("code", 2);
+            map.put("msg", e.getMessage());
+        } catch (SecondRuntimeException e) {
+            map.put("code", 1);
+            map.put("msg", e.getMessage());
+        }
+
+        return map;
+    }
+
+
+    @ApiOperation(value = "上传头像")
+    @RequestMapping(value = "/upload/user/{tokenid}", method = RequestMethod.POST)
+    public Map<String, Object> uploaduser(@PathVariable(value = "tokenid") String tokenid,
+                                      @RequestParam("file") MultipartFile file){
+        Map<String, Object> map = new HashMap<>();
+
+        try {
+          //  service.uploaduser(tokenid, file.getInputStream(), file.getOriginalFilename());
+            map.put("code", 0);
+            map.put("usl", service.uploaduser(tokenid, file.getInputStream(), file.getOriginalFilename()));
 
         } catch (IOException e) {
             map.put("code", 2);
