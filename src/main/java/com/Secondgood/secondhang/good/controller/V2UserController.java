@@ -159,6 +159,28 @@ public class V2UserController {
     }
 
     /**
+     * 忘记密码
+     * @param email
+     * @param password
+     * @param code
+     * @return
+     */
+    @ApiOperation(value = "忘记密码")
+    @ResponseBody
+    @RequestMapping(value ="user/forgetPassword/{email}/{password}/{code}",method = RequestMethod.GET)
+    public Map<String, Object> changePassword(@PathVariable(value="email") String email,
+                                              @PathVariable(value="password") String password,
+                                              @PathVariable(value = "code") String code) {
+
+        Map<String, Object> map = new HashMap<>();
+
+        //userService.forgetPassword( email,password, code );
+        map.put("password", userService.forgetPassword( email,password, code ));
+        return map;
+    }
+
+
+    /**
      * 退出登录
      * @param tokenid
      * @return

@@ -172,6 +172,33 @@ public class V2UserService {
         return password;
     }
 
+    /**
+     * 忘记密码
+     * @param email
+     * @param password
+     * @param code
+     * @return
+     */
+    public String forgetPassword( String email,String password ,String code){
+/*
+      覆盖个人信息
+       */
+        List<V2User> checkEmail = userDao.findByEmail(email);
+        List<V2User> checkCode = userDao.findByEmailcode(code);
+        List<EmailCodeEntity>  checkEmailcode = emailCodeDao.findByCodeAndEmail(code,email);
+
+        if (checkEmail.size()==0) {
+            throw  new SecondRuntimeException("该用户不存在，无法找回密码");
+        }
+        if (checkCode.size() > 0  || checkEmailcode.size() == 0) {
+            throw  new SecondRuntimeException("验证码错误");
+        }
+        V2User userop =userDao.findByEmail(email).get(0);
+        userop.setPassword(password);
+        userDao.save(userop);
+        return password;
+    }
+
 
     /**
      * 退出登录

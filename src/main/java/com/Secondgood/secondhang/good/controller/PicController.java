@@ -53,7 +53,7 @@ public class PicController {
         try {
           //  service.uploaduser(tokenid, file.getInputStream(), file.getOriginalFilename());
             map.put("code", 0);
-            map.put("usl", service.uploaduser(tokenid, file.getInputStream(), file.getOriginalFilename()));
+            map.put("url", service.uploaduser(tokenid, file.getInputStream(), file.getOriginalFilename()));
 
         } catch (IOException e) {
             map.put("code", 2);
