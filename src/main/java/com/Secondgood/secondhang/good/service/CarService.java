@@ -61,6 +61,12 @@ public class CarService {
     @Resource
     ScoreDao scoreDao;
 
+    @Resource
+    LikeDao likeDao;
+
+    @Resource
+    CommentDao commentDao;
+
     /**
      * 加入购物车
      * @param tokenid
@@ -198,8 +204,16 @@ public class CarService {
             // poster存起来
             cartAlreadyBuyDao.save(new CartAlreadyBuyEntity(Util.geFulltUniqueId(), goodid, buyer));
 
+
+            //商品数量为1，购买成功即商品下架
             // 购物车中删除这个商品
             cargoodsDao.deleteByGoodsid(goodid);
+            //收藏列表中删除这个商品
+            likeDao.deleteBygoodsid(goodid);
+            //商品列表中删除这个商品
+            searchDao.deleteByGoodsid(goodid);
+            //删除相关评论
+            commentDao.deleteByGoodsid(goodid);
         }
 
     }

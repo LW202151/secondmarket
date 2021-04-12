@@ -118,7 +118,7 @@ public class CommentController {
 
         map.put("code", 0);
 
-        map.put("data", commentService.findByuserid(tokenid));
+        map.put("data", commentService.commentInfo(commentService.findByuserid(tokenid)));
 
         return map;
 
@@ -176,7 +176,7 @@ public class CommentController {
     public Map<String, Object> allcommit() {
         Map<String, Object> map = new HashMap<>();
         map.put("code", 0);
-        map.put("data", commentService.findAllByDate(commentDao.findAll()));
+        map.put("data", commentService.commentInfo(commentService.findAllByDate()));
 
         return map;
     }

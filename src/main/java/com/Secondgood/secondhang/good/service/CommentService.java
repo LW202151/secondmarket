@@ -1,17 +1,17 @@
 package com.Secondgood.secondhang.good.service;
 
 
-import com.Secondgood.secondhang.good.dao.CartAlreadyBuyDao;
-import com.Secondgood.secondhang.good.dao.CommentDao;
-import com.Secondgood.secondhang.good.dao.GoodOfUserDao;
-import com.Secondgood.secondhang.good.dao.TokenDao;
+import com.Secondgood.secondhang.good.dao.*;
 import com.Secondgood.secondhang.good.entity.*;
 import com.Secondgood.secondhang.good.exceptions.SecondRuntimeException;
+import com.Secondgood.secondhang.good.service.inner.InnerComment;
+import com.Secondgood.secondhang.good.service.inner.InnerGood;
 import com.Secondgood.secondhang.good.util.Util;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -28,6 +28,12 @@ public class CommentService {
 
     @Resource
     TokenDao tokenDao;
+
+    @Resource
+    SearchDao searchDao;
+
+    @Resource
+    SeegoodsService seegoodsService;
 
 
     /**
@@ -67,10 +73,9 @@ public class CommentService {
 
     /**
      * 评论时间排序（all）
-     * @param Entity
      * @return
      */
-    public List<CommentEntity> findAllByDate(List<CommentEntity> Entity) {
+    public List<CommentEntity> findAllByDate() {
         List<CommentEntity> list = commentDao.findAll();
 
         list.sort((o1, o2) -> Util.compareDateFromString(o1.getTime(), o2.getTime()));
@@ -95,6 +100,28 @@ public class CommentService {
         list.sort((o1, o2) -> Util.compareDateFromString(o1.getTime(), o2.getTime()));
         return list;
     }
+
+    public List<InnerComment> commentInfo(List<CommentEntity> commentEntity){
+
+        List<InnerComment> res  = new ArrayList<>();
+
+        for(CommentEntity entity : commentEntity){
+            String goodsid = entity.getGoodsid();
+            String content = entity.getContent();
+            List<GoodsEntity> goodsEntities = searchDao.findByGoodsid(goodsid);
+            List<InnerGood> innerGoods  = seegoodsService.fromEntityListGetInnerGoodList(goodsEntities);
+            InnerGood result = innerGoods.get(0);
+            res.add(new InnerComment(result,content));
+        }
+
+        return res;
+
+
+    }
+
+
+
+
 
 
     /**
