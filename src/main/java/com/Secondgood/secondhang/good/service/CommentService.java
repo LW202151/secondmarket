@@ -35,6 +35,9 @@ public class CommentService {
     @Resource
     SeegoodsService seegoodsService;
 
+    @Resource
+    TokenofManagerDao tokenofManagerDao;
+
 
     /**
      * 发布评论
@@ -164,10 +167,13 @@ public class CommentService {
      */
 
    @Transactional
-    public void  removeComment(String commentid) throws SecondRuntimeException{
+    public void  removeComment(String token ,String commentid) throws SecondRuntimeException{
 
         List<CommentEntity> check = commentDao.findByCommentid(commentid);
-
+       List<TokenOfmanagerEntity> temp = tokenofManagerDao.findByToken(token);
+       if(temp.size() == 0){
+           throw  new SecondRuntimeException("token失效");
+       }
         if(check.size() == 0){
             throw  new SecondRuntimeException("评论不存在");
         }

@@ -53,6 +53,9 @@ public class CarService {
     AddressDao addressDao;
 
     @Resource
+    TokenofManagerDao tokenofManagerDao;
+
+    @Resource
     OrderofgoodDao orderofgoodDao;
 
     @Resource
@@ -316,9 +319,13 @@ public class CarService {
      * @param orderid
      */
     @Transactional
-    public void deleteorder(String orderid) {
+    public void deleteorder(String token ,String orderid) {
 
         List<OrderEntity> check = orderDao.findByOrderid( orderid);
+        List<TokenOfmanagerEntity> temp = tokenofManagerDao.findByToken(token);
+        if(temp.size() == 0){
+            throw  new SecondRuntimeException("token失效");
+        }
         if (check.size() == 0) {
             throw new SecondRuntimeException("订单不存在");
         }

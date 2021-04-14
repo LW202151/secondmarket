@@ -183,16 +183,17 @@ public class Seegoods {
      * @return
      */
     @ApiOperation(value = "下架商品（管理员）")
-    @RequestMapping(value = "/delete/manager", method = RequestMethod.POST)
+    @RequestMapping(value = "/delete/manager/{token}", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> under( @RequestBody JSONObject body) {
+    public Map<String, Object> under( @PathVariable(value = "token") String token ,
+            @RequestBody JSONObject body) {
 
 
         Map<String, Object> map = new HashMap<>();
         ArrayList<String> res = (ArrayList<String>) body.get("data");
 
        try {
-           seegoodsService.under(res);
+           seegoodsService.under(token ,res);
            map.put("code", 0);
         }
         catch (GoodNotFoundException e) {
@@ -288,10 +289,11 @@ public class Seegoods {
      * @return
      */
     @ApiOperation(value = "修改商品信息（管理员）")
-    @RequestMapping(value = "/changeGoods/manager/{goodsid}/{name}/{tag}/{desc}/{price}/{type}", method = RequestMethod.GET)
+    @RequestMapping(value = "/changeGoods/manager/{token}/{goodsid}/{name}/{tag}/{desc}/{price}/{type}", method = RequestMethod.GET)
     @ResponseBody
-    public Map<String, Object> changeGoods(@PathVariable(value = "goodsid") String goodsid,
-                                     @PathVariable(value = "name") String name,
+    public Map<String, Object> changeGoods(@PathVariable(value = "token") String token,
+                                    @PathVariable(value = "goodsid") String goodsid,
+                                    @PathVariable(value = "name") String name,
                                     @PathVariable(value = "tag") String tag,
                                     @PathVariable(value = "desc") String desc,
                                     @PathVariable(value = "price") Float price,
@@ -305,7 +307,7 @@ public class Seegoods {
 
         map.put("code", 0);
         try {
-            map.put("goodId", seegoodsService.changeGood(goodsid,name, tag, desc, price, type));
+            map.put("goodId", seegoodsService.changeGood(token ,goodsid,name, tag, desc, price, type));
         }
         catch (SecondRuntimeException e) {
             map.put("code", 1);

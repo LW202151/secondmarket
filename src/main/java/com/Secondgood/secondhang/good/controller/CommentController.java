@@ -58,12 +58,13 @@ public class CommentController {
      */
     @ApiOperation(value = "删除评论（管理员）")
     @ResponseBody
-    @RequestMapping(value = "/removeComment/manager/{commentid}", method = RequestMethod.GET)
-    public Map<String, Object> removeComment(@PathVariable(value = "commentid") String commentid) {
+    @RequestMapping(value = "/removeComment/manager/{token}/{commentid}", method = RequestMethod.GET)
+    public Map<String, Object> removeComment(@PathVariable(value = "token") String token,
+            @PathVariable(value = "commentid") String commentid) {
 
         Map<String, Object> map = new HashMap<>();
         try {
-            commentService.removeComment(commentid);
+            commentService.removeComment(token ,commentid);
             map.put("code", 0);
             map.put("msg", "删除成功");
         }

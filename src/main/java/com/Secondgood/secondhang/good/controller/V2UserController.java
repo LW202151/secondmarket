@@ -188,7 +188,7 @@ public class V2UserController {
     @ApiOperation(value = "退出登录")
     @ResponseBody
     @RequestMapping(value ="user/exit/{tokenid}",method = RequestMethod.GET)
-    public Map<String, Object> changePassword(@PathVariable(value="tokenid") String tokenid
+    public Map<String, Object> exit(@PathVariable(value="tokenid") String tokenid
                                              ) {
 
         Map<String, Object> map = new HashMap<>();

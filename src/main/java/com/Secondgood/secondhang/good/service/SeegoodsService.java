@@ -55,6 +55,9 @@ public class SeegoodsService {
     @Resource
     OrderofgoodDao orderofgoodDao;
 
+    @Resource
+    TokenofManagerDao tokenofManagerDao;
+
     /**
      * 判断物品是否存在
      * @param goodsid
@@ -240,7 +243,11 @@ public class SeegoodsService {
      * @throws GoodNotFoundException
      */
     @Transactional
-    public void under(List<String> goodIdList) throws GoodNotFoundException {
+    public void under(String token ,List<String> goodIdList) throws GoodNotFoundException {
+        List<TokenOfmanagerEntity> check = tokenofManagerDao.findByToken(token);
+        if(check.size() == 0){
+            throw  new SecondRuntimeException("token失效");
+        }
         for (String goodid : goodIdList) {
 
             List<GoodOfUserEntity> temp = goodOfUserDao.findByGoodsid(goodid);
@@ -309,12 +316,15 @@ public class SeegoodsService {
      * @return
      */
 
-    public String changeGood(String goodsid, String name,String tag,String desciption,float price , String type){
+    public String changeGood(String token ,String goodsid, String name,String tag,String desciption,float price , String type){
 /*
       覆盖商品信息
        */
        List<GoodsEntity> check = seegoodsDao.findByGoodsid(goodsid);
-
+        List<TokenOfmanagerEntity> temp = tokenofManagerDao.findByToken(token);
+        if(temp.size() == 0){
+            throw  new SecondRuntimeException("token失效");
+        }
         if (check.size()==0) {
             throw  new SecondRuntimeException("该商品不存在，无法修改信息");
         }

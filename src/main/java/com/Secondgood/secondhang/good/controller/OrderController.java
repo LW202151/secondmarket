@@ -96,12 +96,13 @@ public class OrderController {
      */
     @ApiOperation(value = "删除订单(管理员）")
     @ResponseBody
-    @RequestMapping(value = "/deleteorder/manager/{orderid}", method = RequestMethod.GET)
-    public Map<String, Object> deletorder(@PathVariable(value = "orderid") String orderid) {
+    @RequestMapping(value = "/deleteorder/manager/{token}/{orderid}", method = RequestMethod.GET)
+    public Map<String, Object> deletorder(
+            @PathVariable(value = "token") String token,@PathVariable(value = "orderid") String orderid) {
         Map<String, Object> map = new HashMap<>();
 
         try {
-            carService.deleteorder(orderid);
+            carService.deleteorder(token ,orderid);
             map.put("code", "删除成功");
         }
         catch (SecondRuntimeException e) {

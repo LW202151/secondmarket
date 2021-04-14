@@ -143,6 +143,8 @@ public class LikeService {
             result.add(op.get(0));
 
         }
+        result.sort((o1, o2) -> Util.compareDateFromString(o1.getUpdatedate(), o2.getUpdatedate()));
+
 
         return result;
     }
